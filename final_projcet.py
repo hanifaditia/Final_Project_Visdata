@@ -15,8 +15,8 @@ pizza_sales_data['date'] = pd.to_datetime(pizza_sales_data['date'])
 pizza_sales_data['day'] = pizza_sales_data['date'].dt.date
 pizza_sales_data['month'] = pizza_sales_data['date'].dt.to_period('M')
 
-# Aggregate sales by day
-daily_sales = pizza_sales_data.groupby('day').agg({'price': 'sum'}).reset_index()
+# # Aggregate sales by day
+# daily_sales = pizza_sales_data.groupby('day').agg({'price': 'sum'}).reset_index()
 
 st.markdown(
         """
@@ -118,7 +118,7 @@ def final_project():
     elif page == "Sales by Category":
         # Sales by Pizza Type
         st.header("Sales by Pizza Category")
-        st.write("Berikut ini adalah Barplot untuk setiap category pizza:")
+        st.write("Berikut ini adalah Barplot pendapatan untuk setiap category pizza:")
         sales_by_type = pizza_sales_data.groupby('type').agg({'price': 'sum'}).reset_index()
         p3 = figure(x_range=sales_by_type['type'], title="Sales by Pizza Category")
         p3.vbar(x=sales_by_type['type'], top=sales_by_type['price'], width=0.9)
@@ -132,7 +132,7 @@ def final_project():
     elif page == "Sales by Pizza Size":
         # Sales by Pizza Size
         st.header("Sales by Pizza Size")
-        st.write("Berikut ini adalah barplot penjualan untuk setiap ukuran pizza:")
+        st.write("Berikut ini adalah barplot pendapatan untuk setiap ukuran pizza:")
         sales_by_size = pizza_sales_data.groupby('size').agg({'price': 'sum'}).reset_index()
         p4 = figure(x_range=sales_by_size['size'], title="Sales by Pizza Size")
         p4.vbar(x=sales_by_size['size'], top=sales_by_size['price'], width=0.9)
