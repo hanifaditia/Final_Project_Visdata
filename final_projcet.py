@@ -73,7 +73,7 @@ def final_project():
 
 
         source = ColumnDataSource(daily_sales_filtered)
-        p = figure(x_axis_type='datetime', title="Daily Sales", plot_height=400, plot_width=700)
+        p = figure(x_axis_type='datetime', title="Daily Sales", height=400, width=700)
         p.line(x='date', y='count', source=source, line_width=2)
 
         tooltips = [("Date", "@date{%F}"), ("Count", "@count")]
