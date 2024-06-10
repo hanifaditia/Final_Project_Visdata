@@ -85,7 +85,43 @@ def final_project():
 
     elif page == "Pizza Sales by Name":
         st.header("Pizza Sales by Name")
+        selected_date = st.date_input("Select a date", min_value=pd.to_datetime(pizza_sales_data['date']).min(), max_value=pd.to_datetime(pizza_sales_data['date']).max())
+        
+        selected_date = pd.to_datetime(selected_date)
+
+        filtered_df = pizza_sales_data[pizza_sales_data['date'] == selected_date]
+
+        group_name_pizza = filtered_df.groupby(['date', 'name']).size().reset_index(name='count')
+        
         st.write("Berikut ini adalah pie chart penjualan untuk setiap menu pizza:")
+
+
+        group_name_pizza['angle'] = group_name_pizza['count'] / group_name_pizza['count'].sum() * 2 * pi
+        # num_sizes = len(group_name_pizza)
+        # colors = Category20c[num_sizes]
+        # group_name_pizza['color'] = colors[:num_sizes]
+
+        num_items = len(group_name_pizza)
+        palette = viridis(num_items)
+
+        group_name_pizza['color'] = palette
+
+        p = figure(height=800,width=400, title=f"{selected_date.date()} Sales", toolbar_location=None,
+                        tools="hover", tooltips="@name: @count")
+
+        p.wedge(x=0, y=1, radius=0.4,
+                start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+                line_color="white", fill_color='color', legend_field='name', source=group_name_pizza)
+
+        p.axis.axis_label = None
+        p.axis.visible = False
+        p.grid.grid_line_color = None
+
+        # Display the chart
+        st.bokeh_chart(p, use_container_width=True)
+        
+
+
         # Group data by 'name' to get the count of each pizza type
         pizza_sales_by_name = pizza_sales_data.groupby('name').size().reset_index(name='count')
 
@@ -99,7 +135,7 @@ def final_project():
         pizza_sales_by_name['color'] = palette
 
         # Create pie chart
-        p = figure(height=800,width=400, title="Pizza Sales by Name", toolbar_location=None,
+        p = figure(height=800,width=400, title="Pizza Sales at 2015", toolbar_location=None,
                 tools="hover", tooltips="@name: @count", x_range=(-0.5, 1.0))
 
         p.wedge(x=0, y=1, radius=0.4,
