@@ -120,7 +120,15 @@ def final_project():
         st.header("Sales by Pizza Category")
         st.write("Berikut ini adalah Barplot pendapatan untuk setiap category pizza:")
         sales_by_type = pizza_sales_data.groupby('type').agg({'price': 'sum'}).reset_index()
-        p3 = figure(x_range=sales_by_type['type'], title="Sales by Pizza Category")
+
+        hover = HoverTool(
+            tooltips=[
+                ("Category", "@x"),
+                ("Sales", "@top{$0,0.00}")
+            ]
+        )
+        
+        p3 = figure(x_range=sales_by_type['type'], title="Sales by Pizza Category",tools=[hover])
         p3.vbar(x=sales_by_type['type'], top=sales_by_type['price'], width=0.9)
         p3.xgrid.grid_line_color = None
         p3.y_range.start = 0
@@ -134,7 +142,13 @@ def final_project():
         st.header("Sales by Pizza Size")
         st.write("Berikut ini adalah barplot pendapatan untuk setiap ukuran pizza:")
         sales_by_size = pizza_sales_data.groupby('size').agg({'price': 'sum'}).reset_index()
-        p4 = figure(x_range=sales_by_size['size'], title="Sales by Pizza Size")
+        hover = HoverTool(
+            tooltips=[
+                ("Size", "@x"),
+                ("Sales", "@top{$0,0.00}")
+            ]
+        )
+        p4 = figure(x_range=sales_by_size['size'], title="Sales by Pizza Size",tools=[hover])
         p4.vbar(x=sales_by_size['size'], top=sales_by_size['price'], width=0.9)
         p4.xgrid.grid_line_color = None
         p4.y_range.start = 0
