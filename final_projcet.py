@@ -206,7 +206,11 @@ def final_project():
         # Create a pie chart
         sales_by_size['angle'] = sales_by_size['count'] / sales_by_size['count'].sum() * 2 * pi
         num_sizes = len(sales_by_size)
-        colors = Category20[num_sizes]
+
+        if (num_sizes == 1):
+            colors = ['blue']
+        else:
+            colors = Category20[num_sizes]
         sales_by_size['color'] = colors[:num_sizes]
 
         p = figure(plot_height=400, title=f"{selected_pizza} Sales by Size", toolbar_location=None,
